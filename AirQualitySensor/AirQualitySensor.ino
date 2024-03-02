@@ -4,14 +4,14 @@ int digitalValue;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(A0, OUTPUT);
+  pinMode(36, OUTPUT);
   pinMode(26, INPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  sensorValue = analogRead(A0);
+  sensorValue = analogRead(36);
   digitalValue = digitalRead(26);
 
   if (sensorValue > 400)

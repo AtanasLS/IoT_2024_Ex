@@ -1,7 +1,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <LiquidCrystal_I2C.h>
 
-#define SENSOR_PIN 16
+
+#define SENSOR_PIN 17
 
 OneWire oneWire(SENSOR_PIN);
 DallasTemperature DS18B20(&oneWire);
