@@ -21,15 +21,17 @@ int sensorValue;
 int digitalValue;
 
 
-void setup() {
+  void setup() {
   Serial.begin(115200);
   pinMode(36, OUTPUT);
   pinMode(26, INPUT);
+
   Serial.println("*****************************************************");
   Serial.println("********** Program Start : ESP32 publishes MQ-135n data to AskSensors over MQTT");
   Serial.print("********** connecting to WIFI : ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
+
   while (WiFi.status() != WL_CONNECTED) {
   delay(500);
   Serial.print(".");
@@ -41,7 +43,7 @@ void setup() {
   client.setCallback(callback);
 }
 
-void loop() {
+  void loop() {
   // put your main co
   //de here, to run repeatedly:
 
@@ -64,42 +66,42 @@ void loop() {
   } else {
   Serial.print("Poor Air: ");
   }
-Serial.print(MQ135_data); // analog data
-Serial.println(" PPM"); // Unit = part per million
-Serial.println("********** Publish MQTT data to ASKSENSORS");
-char mqtt_payload[30] = "";
-snprintf (mqtt_payload, 30, "m1=%ld", MQ135_data);
-Serial.print("Publish message: ");
-Serial.println(mqtt_payload);
-client.publish(pubTopic, mqtt_payload);
-Serial.println("> MQTT data published");
-Serial.println("********** End ");
-Serial.println("*****************************************************");
-delay(writeInterval);// delay
+  Serial.print(MQ135_data); // analog data
+  Serial.println(" PPM"); // Unit = part per million
+  Serial.println("********** Publish MQTT data to ASKSENSORS");
+  char mqtt_payload[30] = "";
+  snprintf (mqtt_payload, 30, "m1=%ld", MQ135_data);
+  Serial.print("Publish message: ");
+  Serial.println(mqtt_payload);
+  client.publish(pubTopic, mqtt_payload);
+  Serial.println("> MQTT data published");
+  Serial.println("********** End ");
+  Serial.println("*****************************************************");
+  delay(writeInterval);// delay
 }
 
-void callback(char* topic, byte* payload, unsigned int length) {
-Serial.print("Message arrived [");
-Serial.print(topic);
-Serial.print("] ");
-for (int i = 0; i < length; i++) {
-Serial.print((char)payload[i]);
-}
-Serial.println();
-}
-void reconnect() {
-// Loop until we’re reconnected
-while (!client.connected()) {
-Serial.print("********** Attempting MQTT connection…");
-// Attempt to connect
-if (client.connect("ESP32Client", username, "")) {
-Serial.println("-> MQTT client connected");
-} else {
-Serial.print("failed, rc=");
-Serial.print(client.state());
-Serial.println("-> try again in 5 seconds");
-// Wait 5 seconds before retrying
-delay(5000);
+  void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++) {
+  Serial.print((char)payload[i]);
+  }
+  Serial.println();
+  }
+  void reconnect() {
+  // Loop until we’re reconnected
+  while (!client.connected()) {
+  Serial.print("********** Attempting MQTT connection…");
+  // Attempt to connect
+  if (client.connect("ESP32Client", username, "")) {
+  Serial.println("-> MQTT client connected");
+  } else {
+  Serial.print("failed, rc=");
+  Serial.print(client.state());
+  Serial.println("-> try again in 5 seconds");
+  // Wait 5 seconds before retrying
+  delay(5000);
 }
 }
 }
